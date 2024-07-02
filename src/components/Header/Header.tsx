@@ -1,9 +1,14 @@
 import { useState } from "react";
 import { FiLogIn, FiLogOut, FiShoppingCart } from "react-icons/fi"
 import { Cart } from "../Cart/Cart";
-
+import { useSelector } from 'react-redux'
 import * as S from "./styles";
+import { RootReducer } from "../../redux/root-reduce";
 export const Header: React.FC = () => {
+  const { user } = useSelector((rootReducer: RootReducer) => rootReducer.userReducer)
+
+  console.log(user);
+
   const [showCart, setShowCart] = useState(false);
   const isLogged = false;
   return (
