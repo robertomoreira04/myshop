@@ -18,14 +18,20 @@ interface UserAction {
   payload?: User;
 }
 
-export function userReducer (state = initialState, action: UserAction) {
+export function userReducer (
+  state = initialState, 
+  action: UserAction
+): UserState {
   if (action.type === 'user/login') {
     return {
-      user: {
-        name: "Roberto Moreira",
-        email: "robertom@email.com"
-      }
+      ...state,
+      user: action.payload as User,
     }
+  } else if (action.type === 'user/logout') {
+    return {
+      ...state,
+      user: null,
+    };
   }
 
   return state;

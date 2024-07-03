@@ -1,23 +1,40 @@
 import { useState } from "react";
 import { FiLogIn, FiLogOut, FiShoppingCart } from "react-icons/fi"
 import { Cart } from "../Cart/Cart";
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import * as S from "./styles";
 import { RootReducer } from "../../redux/root-reduce";
 export const Header: React.FC = () => {
   const { user } = useSelector((rootReducer: RootReducer) => rootReducer.userReducer)
 
-  console.log(user);
+  const dispatch = useDispatch()
 
   const [showCart, setShowCart] = useState(false);
-  const isLogged = false;
+  const isLogged = user !== null;
+
+  function handleUserAuth () {
+    if (user === null) {
+      dispatch({
+        type: 'user/login',
+        payload: {
+          name: "Roberto Moreira",
+          email: 'robertom@email.com',
+        },
+      });
+    } else {
+      dispatch({
+        type: 'user/logout'
+      });
+    }
+  }
+
   return (
     <S.StyledHeader>
       <S.Wrapper>
         <S.HeaderTitle>RM Shop.</S.HeaderTitle>
 
         <S.ButtonsWrapper>
-          <S.AuthButton isLogged={isLogged}>
+          <S.AuthButton isLogged={isLogged} onClick={handleUserAuth}>
           {isLogged ? "Logout" : "Login"}
           {isLogged ? <FiLogOut /> : <FiLogIn />}
           </S.AuthButton>
